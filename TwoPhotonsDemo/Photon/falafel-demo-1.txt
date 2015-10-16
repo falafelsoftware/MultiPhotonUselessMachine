@@ -1,0 +1,24 @@
+﻿#define LEDPIN D0
+#define ANALOGPIN A0
+
+int val = 0;
+
+void setup() {
+    Particle.unsubscribe();
+    Particle.variable("Light", &val, INT);
+    pinMode(LEDPIN, OUTPUT); 
+}
+
+void loop() {
+    val = analogRead(ANALOGPIN);  
+    if (val < 800)
+    {
+        Particle.publish("NeedCover",String(val));
+        digitalWrite(LEDPIN, HIGH);
+        delay(1000);
+        digitalWrite(LEDPIN, LOW);
+        delay(1000);
+        return;
+    }
+    delay(2000);
+}

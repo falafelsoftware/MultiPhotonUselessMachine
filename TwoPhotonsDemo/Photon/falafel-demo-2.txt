@@ -1,0 +1,68 @@
+﻿#define LEDPIN D0
+#define ALERTPIN D2
+#define SERVOPIN D1
+#define ANALOGPIN A0
+Servo myservo;
+int position = 0;
+bool go = true;
+
+void setup() {
+    Particle.unsubscribe();
+    pinMode(LEDPIN, OUTPUT); 
+    pinMode(ALERTPIN, OUTPUT); 
+    myservo.attach(SERVOPIN);
+    Particle.subscribe("NeedCover", needCoverHandler, "{PHOTON1DEVICEIDHERE}");
+    bool success = Particle.function("position",positionFunction);
+    Particle.publish("position",String(success));
+}
+
+void loop() {
+    int val = analogRead(ANALOGPIN);  
+
+    if (val > 800)
+    {
+        Particle.publish("NeedtoUncover",String(val));
+        if (go)
+        {
+            position = 0;
+        }
+        digitalWrite(ALERTPIN, HIGH);
+        delay(500);
+        digitalWrite(ALERTPIN, LOW);
+    }
+
+    myservo.write(position);
+    delay(2000);
+}
+
+void needCoverHandler(const char *event, const char *data)
+{
+    if (go)
+    {
+        position = 90;
+    }
+    digitalWrite(LEDPIN, HIGH);
+    delay(1000);
+    digitalWrite(LEDPIN, LOW);
+}
+
+int positionFunction(String command) {
+    if (command=="0") {
+        go = false;
+        position = 0;
+        return position;
+    }
+    else if (command=="90") {
+        go = false;
+        position = 90;
+        return position;
+    }
+    else if (command=="Go") {
+        go = true;
+        position = 0;
+        return position;
+    }
+    else {
+        return -1;
+    }
+}

@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="TwoPhotonsDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TwoPhotonsDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel>
+            <Button Content="Open Stream" Click="Open_Stream_Click"></Button>
+            <TextBlock x:Name="streamResultTextBox"></TextBlock>
+            <Button Content="Get Variable" Click="Get_Variable_Click"></Button>
+            <TextBlock x:Name="resultTextBox"></TextBlock>
+            <RadioButton Content="0" Click="RadioButton_Click"></RadioButton>
+            <RadioButton Content="90" Click="RadioButton_Click"></RadioButton>
+            <RadioButton Content="Go" IsChecked="True" Click="RadioButton_Click"></RadioButton>
+            <TextBlock x:Name="postTextBox" Visibility="Collapsed"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>
